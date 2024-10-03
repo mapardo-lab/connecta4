@@ -1,0 +1,7 @@
+pytest
+build
+mypy
+pytest-cov
+black
+isort
+ipdb
