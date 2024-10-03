@@ -3,8 +3,8 @@ black .
 echo "==== isort ===="
 isort .
 echo "==== pylint ===="
-pylint prueba
+pylint connecta
 echo "==== mypy ===="
-mypy prueba
+mypy connecta
 echo "==== pytest ===="
-pytest --cov prueba tests
+pytest --cov connecta tests
