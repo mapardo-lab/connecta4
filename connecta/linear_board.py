@@ -5,9 +5,7 @@ from connecta.settings import BOARD_LENGTH, VICTORY_STRIKE
 class LinearBoard:
     """
     Clase que representa un tablero de una sola columna
-    x un jugador
-    o otro jugador
-    None espacio vacio
+    None casilla vacia
     """
 
     def __init__(self):
