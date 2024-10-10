@@ -1,5 +1,5 @@
-from connecta.list_utils import find_strike
-from connecta.settings import BOARD_LENGTH, VICTORY_STRIKE
+from list_utils import find_strike
+from settings import BOARD_LENGTH, VICTORY_STRIKE
 
 
 class LinearBoard:
@@ -7,6 +7,17 @@ class LinearBoard:
     Clase que representa un tablero de una sola columna
     None casilla vacia
     """
+
+    @classmethod
+    def fromList(cls, list_tokens):
+        board = cls()
+        if len(list_tokens) > BOARD_LENGTH:
+            raise Exception('Lista de elementos demasiado larga')
+        else:
+            for i in range(len(list_tokens), BOARD_LENGTH):
+                list_tokens.append(None)
+            board._column = list_tokens
+            return board
 
     def __init__(self):
         """
@@ -41,3 +52,12 @@ class LinearBoard:
         Comprueba si no hay victoria de token1 ni token2
         """
         return not self.is_victory(token1) and not self.is_victory(token2)
+
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        else:
+            return self._column == other._column
+
+    def __hash__(self):
+        return hash(self._column)

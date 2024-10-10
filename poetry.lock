@@ -60,6 +60,24 @@ files = [
 ]
 
 [[package]]
+name = "beautifultable"
+version = "1.1.0"
+description = "Print text tables for terminals"
+optional = false
+python-versions = "*"
+files = [
+    {file = "beautifultable-1.1.0-py2.py3-none-any.whl", hash = "sha256:b34053a581976c4c23064bb0e918a7f6f22273cf196c787946db323a6a2b7d84"},
+    {file = "beautifultable-1.1.0.tar.gz", hash = "sha256:040bc987444965678f4ffdfa2f17ac357f1a13e5875b161c9a1899b375319d17"},
+]
+
+[package.dependencies]
+wcwidth = "*"
+
+[package.extras]
+all = ["pandas"]
+dev = ["pandas"]
+
+[[package]]
 name = "black"
 version = "24.8.0"
 description = "The uncompromising code formatter."
@@ -963,4 +981,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "047161ca1b2994d1b445f3a1a7957d6c3cadd42f876f62e0126ae3b03081c7fb"
+content-hash = "c27a44231ced21174e53a31facdb04c09d41a1f481365a5a8c5232b751e158e7"

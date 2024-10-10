@@ -1,7 +1,6 @@
 import pytest
-
-from connecta.linear_board import *
-from connecta.settings import BOARD_LENGTH, VICTORY_STRIKE
+from linear_board import *
+from settings import BOARD_LENGTH, VICTORY_STRIKE
 
 
 def test_empty_board():
@@ -41,3 +40,14 @@ def test_tie():
     b.add("x")
     b.add("o")
     assert b.is_tie("x", "o") is True
+
+
+def test_equality():
+    b = LinearBoard()
+    b.add("x")
+    c = LinearBoard()
+    c.add("o")
+    a = LinearBoard()
+    a.add("x")
+    assert b == a
+    assert b != c
