@@ -1,7 +1,9 @@
 import random
 
+from beautifultable import BeautifulTable
 from list_utils import all_same
 from oracle import BaseOracle, ColumnClassification, ColumnRecommendation
+from settings import BOARD_LENGTH
 from squared_board import SquaredBoard
 
 
@@ -53,8 +55,8 @@ class Player:
 
 
 class HumanPlayer(Player):
-    def __init__(self, name, token=None):
-        super().__init__(name, token)
+    def __init__(self, name, token=None, oracle=BaseOracle()):
+        super().__init__(name, token, oracle)
 
     def _ask_oracle(self, board):
         """
@@ -62,11 +64,26 @@ class HumanPlayer(Player):
         """
         while True:
             # pedimos columna
-            raw = input('Select a column: ')
+            raw = input('Select a column (type h for help): ')
             # comprobamos que es correcto lo introducido
-            if _is_valid(board, raw):
+            if raw == 'h':
+                self.display_help(board)
+            elif _is_valid(board, raw):
                 pos = int(raw)
                 return (ColumnRecommendation(pos, None), None)
+
+    def display_help(self, board):
+        """
+        Imprime la tabla con la ayuda solicitada por el jugador humano
+        """
+        recommendations = self._oracle.get_recommendation(board, self)
+        matrix = list(map(lambda x: x.classification.name, recommendations))
+        # crear la tabla
+        bt = BeautifulTable()
+        bt.rows.insert(1, matrix)
+        bt.columns.header = [str(i) for i in range(BOARD_LENGTH)]
+        # imprimirla
+        print(bt)
 
 
 def _is_valid(board, raw):

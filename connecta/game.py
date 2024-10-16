@@ -158,7 +158,7 @@ class Game:
             player2 = Player('T-1000', oracle=SmartOracle())
         else:
             player1 = Player('T-800', oracle=_levels[self._difficulty_level])
-            player2 = HumanPlayer(name=input('Enter your name: '))
+            player2 = HumanPlayer(name=input('Enter your name: '), oracle=SmartOracle())
         return Match(player1, player2)
 
 
