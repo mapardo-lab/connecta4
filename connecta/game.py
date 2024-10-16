@@ -1,11 +1,12 @@
 from enum import Enum, auto
 
-from match import Match
-from player import HumanPlayer, Player
-from squared_board import SquaredBoard
-from list_utils import reverse_list_of_lists
 from beautifultable import BeautifulTable
+from list_utils import reverse_list_of_lists
+from match import Match
+from oracle import BaseOracle, SmartOracle
+from player import HumanPlayer, Player
 from settings import BOARD_LENGTH
+from squared_board import SquaredBoard
 
 
 class RoundType(Enum):
@@ -64,7 +65,7 @@ class Game:
         # obtener una matriz de caracteres a partir del tablero
         matrix = self.board.as_list()
         matrix = reverse_list_of_lists(matrix)
-        # crear la tabla 
+        # crear la tabla
         bt = BeautifulTable()
         for col in matrix:
             bt.columns.append(col)
@@ -98,8 +99,32 @@ class Game:
         """
         # tipo de partida
         self.round_type = self._get_round_type()
+        # preguntar nivel de dificultad
+        if self.round_type == RoundType.COMPUTER_VS_HUMAN:
+            self._difficulty_level = self._get_difficulty_level()
         # crear partida
         self.match = self._make_match()
+
+    def _get_difficulty_level(self):
+        """
+        Pregunta al usuario como de listo quiere que sea su oponente
+        """
+        print(
+            """
+        Choose your opponent:
+        1) Bender
+        2) T-800
+        3) T-1000
+        """
+        )
+        while True:
+            respond = input("Please type 1, 2 or 3: ").strip()
+            if respond == '1':
+                return DifficultyLevel.LOW
+            elif respond == '2':
+                return DifficultyLevel.MEDIUM
+            elif respond == '3':
+                return DifficultyLevel.HIGH
 
     def _get_round_type(self):
         """
@@ -122,11 +147,17 @@ class Game:
             return RoundType.COMPUTER_VS_HUMAN
 
     def _make_match(self):
+
+        _levels = {
+            DifficultyLevel.LOW: BaseOracle(),
+            DifficultyLevel.MEDIUM: SmartOracle(),
+            DifficultyLevel.HIGH: SmartOracle(),
+        }
         if self.round_type == RoundType.COMPUTER_VS_COMPUTER:
-            player1 = Player('T-X')
-            player2 = Player('T-1000')
+            player1 = Player('T-X', oracle=SmartOracle())
+            player2 = Player('T-1000', oracle=SmartOracle())
         else:
-            player1 = Player('T-800')
+            player1 = Player('T-800', oracle=_levels[self._difficulty_level])
             player2 = HumanPlayer(name=input('Enter your name: '))
         return Match(player1, player2)
 

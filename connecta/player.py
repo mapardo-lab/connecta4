@@ -1,6 +1,8 @@
+import random
+
+from list_utils import all_same
 from oracle import BaseOracle, ColumnClassification, ColumnRecommendation
 from squared_board import SquaredBoard
-import random
 
 
 class Player:
@@ -41,10 +43,13 @@ class Player:
         """
         Selecciona la mejor opción entre las recomendaciones
         """
-        select = list(
-            filter(lambda x: x.classification == ColumnClassification.MAYBE, recommendations)
+        recommendations = sorted(
+            recommendations, key=lambda x: x.classification.value, reverse=True
         )
-        return random.choice(select)
+        if all_same(recommendations):
+            return random.choice(recommendations)
+        else:
+            return recommendations[0]
 
 
 class HumanPlayer(Player):

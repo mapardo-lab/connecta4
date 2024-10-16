@@ -1,5 +1,6 @@
 import pytest
 from list_utils import *
+from oracle import ColumnClassification, ColumnRecommendation
 
 
 def test_find_one():
@@ -65,3 +66,26 @@ def test_move_list_of_lists():
 def test_reverse_list_of_lists():
     original = [[1, 2, 3], [3, 1, 2], [2, 3, 1]]
     assert reverse_list_of_lists(original) == [[3, 2, 1], [2, 1, 3], [1, 3, 2]]
+
+
+def test_all_same():
+    assert all_same([1, 2, 3, 4]) == False
+    assert all_same([[], [], []])
+    assert all_same([])
+    assert all_same([1, 1, 1, 1])
+
+    assert all_same(
+        [
+            ColumnRecommendation(0, ColumnClassification.WIN),
+            ColumnRecommendation(2, ColumnClassification.WIN),
+        ]
+    )
+    assert (
+        all_same(
+            [
+                ColumnRecommendation(0, ColumnClassification.MAYBE),
+                ColumnRecommendation(2, ColumnClassification.WIN),
+            ]
+        )
+        == False
+    )

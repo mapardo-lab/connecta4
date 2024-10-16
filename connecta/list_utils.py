@@ -113,3 +113,18 @@ def find_one_old(list_elements, needle):
             return True
         i += 1
     return False
+
+
+def all_same(list_elements):
+    """
+    Devuelve True si todos los elementos de la lista son iguales
+    o si la lista está vacia
+    """
+    if list_elements == []:
+        return True
+    else:
+        first = list_elements[0]
+        for i in list_elements:
+            if first != i:
+                return False
+        return True
